@@ -1,3 +1,6 @@
+# https://www.kaggle.com/joaopmpeinado/single-xgboost-lb-0-9639 からコピペしただけ
+# これだけでスコア 0.9638 (ドン引き)
+
 # This kernel have improvement from Pranav Pandya and Andy Harless
 # Pranav Kernel: https://www.kaggle.com/pranav84/xgboost-on-hist-mode-ip-addresses-dropped
 # Andy Kernel: https://www.kaggle.com/aharless/jo-o-s-xgboost-with-memory-usage-enhancements
