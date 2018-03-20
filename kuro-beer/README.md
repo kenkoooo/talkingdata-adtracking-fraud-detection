@@ -1,15 +1,34 @@
-### kuro-beer's TODO
+## kuro-beer's TODO
 ---
-- [ ] 前処理スクリプトを用意する
-  - [ ] trainの2017-11-06 16:00:00より前のデータを捨てる  
+- [ ] 抽出〜加工〜学習〜cv〜予測まで簡単に試せるnotebook作る．
+  - とりあえずlogistic回帰とかで．軽いやつ．
+  
+- [ ] インストール済xgboostがgpuに対応していなかった気がするので確認する．
+
+- [ ] ipを集約したい．Embedding的な．
+  - major app, major channelに対するClick頻度とかActiveな時間帯とかうまいこと使えないか検討．
+
+- [ ] 分析を進めつつ，適宜前処理プロセスを整理する
+  - [ ] trainの2017-11-06 16:00:00より前のデータを捨てる
   - [ ] click_timeを分割する
-- [ ] 生データそのままHDFに変換・保存
+
+##### archive
+- [x] 生データそのままHDFに変換・保存
 
 
-
-### 適当にわかったこととか
+## 調べもの
 ---
--
+- [ ] Web広告について．talkingdataについて
+  - ここでtalkingdata社のサービスのデモで遊べる．ただしほぼ中国語( https://www.talkingdata.com/ )．わからん．
 
-### アイデア帳
----
+- [ ] channel id of mobile ad publisherとは．広告主？
+- [ ] appはclickされたadが宣伝しているappのこと？
+
+- [ ] 不均衡データ処理分類
+  - [ ] to read: https://www.slideshare.net/sfchaos/ss-11307051
+
+- [ ] AWSについて．分析が走りだしたら待ち時間とかに．
+  - [ ] 何ができるか
+  - [ ] どうやって使うか
+
+##### archive
