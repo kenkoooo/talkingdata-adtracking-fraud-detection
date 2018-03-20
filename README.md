@@ -1,8 +1,8 @@
 # talkingdata-adtracking-fraud-detection
 
-[Competition Home](https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection)
-[Kernels](https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection/kernels)
-[Discussion](https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection/discussion)
+- [Competition Home](https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection)
+- [Kernels](https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection/kernels)
+- [Discussion](https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection/discussion)
 
 ## Data Description
 
