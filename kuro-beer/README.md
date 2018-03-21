@@ -10,12 +10,16 @@
 
 - [ ] ipを集約したい．Embedding的な．
   - major app, major channelに対するClick頻度とかActiveな時間帯とかうまいこと使えないか検討．
-  - なんかipの分布が…
-
+  - なんかipの分布が…  
+  train
+  ![train](https://github.com/kenkoooo/talkingdata-adtracking-fraud-detection/blob/master/kuro-beer/fig/hist_ip_train.png)  
+  test
+  ![test](https://github.com/kenkoooo/talkingdata-adtracking-fraud-detection/blob/master/kuro-beer/fig/hist_ip_test.png)
 
 - 前処理関連メモ
   - trainの2017-11-06 16:00:00より前のデータを捨てる
-  - click_timeを分割する
+  - click_timeを分割する  
+  
 
 ##### archive
 - [x] 生データそのままHDFに変換・保存
