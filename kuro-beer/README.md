@@ -5,8 +5,13 @@
 
 - [ ] インストール済xgboostがgpuに対応していなかった気がするので確認する．
 
+- [ ] Downsampling方法を考える
+  - click数が少ないipと多いipとの間にダウンロード率，app, channelあたりの偏りがないか見てみる．
+
 - [ ] ipを集約したい．Embedding的な．
   - major app, major channelに対するClick頻度とかActiveな時間帯とかうまいこと使えないか検討．
+  - なんかipの分布が…
+
 
 - 前処理関連メモ
   - trainの2017-11-06 16:00:00より前のデータを捨てる
