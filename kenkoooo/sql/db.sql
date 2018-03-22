@@ -12,7 +12,7 @@ CREATE TABLE click_data (
 );
 
 # test.csv 受け皿用の一時テーブル作成
-CREATE TEMPORARY TABLE T(
+CREATE TEMPORARY TABLE t(
   click_id    BIGINT,
   ip          BIGINT NOT NULL,
   app         BIGINT NOT NULL,
