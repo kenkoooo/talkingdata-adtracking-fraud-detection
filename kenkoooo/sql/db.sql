@@ -23,7 +23,7 @@ CREATE TEMPORARY TABLE t(
 );
 
 # 一時テーブルに展開
-\copy t from /home/ubuntu/talkingdata-adtracking-fraud-detection/data/test.csv DELIMITER "," CSV HEADER;
+\copy t from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test.csv' DELIMITER ',' CSV HEADER;
 
 # 一時テーブルからコピー
 INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT click_id,ip,app,device,os,channel,click_time FROM t
