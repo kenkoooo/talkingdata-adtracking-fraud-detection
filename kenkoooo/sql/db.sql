@@ -1,3 +1,6 @@
+#############################
+#     DATA SET UP           #
+#############################
 CREATE TABLE click_data (
   id          SERIAL PRIMARY KEY,
   click_id    BIGINT,
@@ -30,3 +33,17 @@ INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT cli
 
 # 一時テーブル削除
 drop table t;
+
+
+#############################
+#     DATA CONDITIONING     #
+#############################
+
+# ip ごとに何回目のクリックかを保存するテーブル。
+CREATE TABLE click_count (
+  id              INT PRIMARY KEY,
+  count_by_ip     INT
+);
+
+# ip ごとに何回目のクリックかを保存するテーブルに流し込むためのクエリ。
+INSERT INTO click_count (id, count_by_ip) SELECT id, rank() over (partition by ip order by click_time, id) from click_data;
