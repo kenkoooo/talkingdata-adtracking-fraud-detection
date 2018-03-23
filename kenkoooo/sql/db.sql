@@ -39,11 +39,8 @@ drop table t;
 #     DATA CONDITIONING     #
 #############################
 
-# ip ごとに何回目のクリックかを保存するテーブル。
-CREATE TABLE click_count (
-  id              INT PRIMARY KEY,
-  count_by_ip     INT
-);
+# ip ごとのクリック数（何回目）を集計して保存する
+CREATE TABLE click_count_by_ip AS SELECT id, rank() over (partition by ip order by click_time, id) from click_data;
 
-# ip ごとに何回目のクリックかを保存するテーブルに流し込むためのクエリ。
-INSERT INTO click_count (id, count_by_ip) SELECT id, rank() over (partition by ip order by click_time, id) from click_data;
+# id に PK 貼る
+ALTER TABLE click_count_by_ip ADD PRIMARY KEY (id);
