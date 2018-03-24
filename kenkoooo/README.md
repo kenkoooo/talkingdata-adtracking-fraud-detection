@@ -43,7 +43,7 @@
   - pandas で上手く出来るっぽい
   - 年月日のデータは使いようがないかな……？
 - フォーラムにもあったが test_supplement は test を完全に内包している。
-```
+```sql
 talkingdata=> select count(test_data.click_id) from test_data join test_supplement on test_data.click_id=test_supplement.click_id;
   count   
 ----------
