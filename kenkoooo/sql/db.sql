@@ -54,6 +54,8 @@ CREATE TABLE test_supplement(
 -- テーブルに展開
 \copy train_data from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/train.csv' DELIMITER ',' CSV HEADER;
 \copy test_data from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test.csv' DELIMITER ',' CSV HEADER;
+-- COPY 18790469
+-- Time: 75959.376 ms
 \copy test_supplement from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test_supplement.csv' DELIMITER ',' CSV HEADER;
 
 -- テーブルからコピー
