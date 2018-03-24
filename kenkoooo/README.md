@@ -6,6 +6,7 @@
 - channel って何なんだ・・・（forum を見てみる）
 - (ip, device, os) で同一ユーザーと見なせそう？
 - 前回クリックからの経過時間
+- フォーラムにもあったが test_supplement は test を完全に内包しているのか？少なくとも同一 click_id は同じデータを指してはいない。
 
 ## 技術的なこと
 - 上手にダウンサンプリングしたい。
@@ -42,20 +43,3 @@
 - 時刻のカラムを数値に分割したい。 2017-11-09 11:45:14 => 11, 45, 14
   - pandas で上手く出来るっぽい
   - 年月日のデータは使いようがないかな……？
-- フォーラムにもあったが test_supplement は test を完全に内包している。
-```sql
-talkingdata=> select count(test_data.click_id) from test_data join test_supplement on test_data.click_id=test_supplement.click_id;
-  count   
-----------
- 18790469
-(1 row)
-
-Time: 45430.048 ms
-talkingdata=> select count(click_id) from test_data ;
-  count   
-----------
- 18790469
-(1 row)
-
-Time: 4601.128 ms
-```
