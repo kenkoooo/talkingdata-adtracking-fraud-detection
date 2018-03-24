@@ -1,6 +1,6 @@
-#############################
-#     DATA SET UP           #
-#############################
+-- 
+-- SET UP
+-- 
 CREATE TABLE click_data (
   id          SERIAL PRIMARY KEY,
   click_id    BIGINT,
@@ -14,7 +14,7 @@ CREATE TABLE click_data (
   is_attributed INT
 );
 
-# test.csv 受け皿用の一時テーブル作成
+-- test.csv 受け皿用の一時テーブル作成
 CREATE TEMPORARY TABLE t(
   click_id    BIGINT,
   ip          BIGINT NOT NULL,
@@ -25,22 +25,19 @@ CREATE TEMPORARY TABLE t(
   click_time  TIMESTAMP
 );
 
-# 一時テーブルに展開
+-- 一時テーブルに展開
 \copy t from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test.csv' DELIMITER ',' CSV HEADER;
 
-# 一時テーブルからコピー
+-- 一時テーブルからコピー
 INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT click_id,ip,app,device,os,channel,click_time FROM t
 
-# 一時テーブル削除
+-- 一時テーブル削除
 drop table t;
 
 
-#############################
-#     DATA CONDITIONING     #
-#############################
-
-# ip ごとのクリック数（何回目）を集計して保存する
+-- CONFITIONING
+-- ip ごとのクリック数（何回目）を集計して保存する
 CREATE TABLE click_count_by_ip AS SELECT id, rank() over (partition by ip order by click_time, id) from click_data;
 
-# id に PK 貼る
+-- id に PK 貼る
 ALTER TABLE click_count_by_ip ADD PRIMARY KEY (id);
