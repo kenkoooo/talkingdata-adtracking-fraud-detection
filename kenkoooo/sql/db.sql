@@ -57,6 +57,8 @@ CREATE TABLE test_supplement(
 -- COPY 18790469
 -- Time: 75959.376 ms
 \copy test_supplement from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test_supplement.csv' DELIMITER ',' CSV HEADER;
+-- COPY 57537505
+-- Time: 253610.982 ms
 
 -- テーブルからコピー
 INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT click_id,ip,app,device,os,channel,click_time FROM test_data;
