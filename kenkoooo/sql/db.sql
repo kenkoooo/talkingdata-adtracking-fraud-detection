@@ -1,6 +1,8 @@
 -- 
 -- SET UP
 -- 
+
+-- 全データをまとめたテーブル
 CREATE TABLE click_data (
   id          SERIAL PRIMARY KEY,
   click_id    BIGINT,
@@ -14,9 +16,21 @@ CREATE TABLE click_data (
   is_attributed INT
 );
 
--- test.csv 受け皿用の一時テーブル作成
-CREATE TEMPORARY TABLE t(
-  click_id    BIGINT,
+-- train 用のテーブル作成
+CREATE TABLE train_data(
+  ip          BIGINT NOT NULL,
+  app         BIGINT NOT NULL,
+  device      BIGINT NOT NULL,
+  os          BIGINT NOT NULL,
+  channel     BIGINT NOT NULL,
+  click_time  TIMESTAMP,
+  attributed_time TIMESTAMP,
+  is_attributed INT
+);
+
+-- test 用のテーブル作成
+CREATE TABLE test_data(
+  click_id    BIGINT PRIMARY KEY,
   ip          BIGINT NOT NULL,
   app         BIGINT NOT NULL,
   device      BIGINT NOT NULL,
@@ -25,15 +39,25 @@ CREATE TEMPORARY TABLE t(
   click_time  TIMESTAMP
 );
 
--- 一時テーブルに展開
-\copy t from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test.csv' DELIMITER ',' CSV HEADER;
+-- test_supplement 用のテーブル作成
+CREATE TABLE test_supplement(
+  click_id    BIGINT PRIMARY KEY,
+  ip          BIGINT NOT NULL,
+  app         BIGINT NOT NULL,
+  device      BIGINT NOT NULL,
+  os          BIGINT NOT NULL,
+  channel     BIGINT NOT NULL,
+  click_time  TIMESTAMP
+);
 
--- 一時テーブルからコピー
-INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT click_id,ip,app,device,os,channel,click_time FROM t
 
--- 一時テーブル削除
-drop table t;
+-- テーブルに展開
+\copy train_data from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/train.csv' DELIMITER ',' CSV HEADER;
+\copy test_data from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test.csv' DELIMITER ',' CSV HEADER;
+\copy test_supplement from '/home/ubuntu/talkingdata-adtracking-fraud-detection/data/test_supplement.csv' DELIMITER ',' CSV HEADER;
 
+-- テーブルからコピー
+INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT click_id,ip,app,device,os,channel,click_time FROM test_data;
 
 -- CONFITIONING
 -- ip ごとのクリック数（何回目）を集計して保存する
