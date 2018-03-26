@@ -1,13 +1,13 @@
 -- Tabulate by app, channel and role
 
-create table tab_count_app_channel as
+create table tab_cnt_app_channel as
     select 
-        role, app, channel, count(*) as cnt
+        is_test, app, channel, count(*) as cnt, 1 as flg
     from
         click_data
     group by
-        role, app, channel
+        is_test, app, channel
     order by 
-        role, app, channel
+        is_test, app, channel
     ;
 
