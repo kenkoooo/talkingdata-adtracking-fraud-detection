@@ -34,3 +34,10 @@ select max(os) from click_data;
 -- (1 row)
 
 -- Time: 146593.733 ms
+select max(app) from click_data;
+--  max 
+-- -----
+--  768
+-- (1 row)
+
+-- Time: 159865.931 ms
