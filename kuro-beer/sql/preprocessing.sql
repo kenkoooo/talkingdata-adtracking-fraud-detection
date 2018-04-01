@@ -23,7 +23,7 @@ create temporary table tmp1 as
         Row_Number() over(partition by ip, os, device, is_test order by click_time) as row_number,
         Row_Number() over(partition by ip, os, device, is_test order by click_time) + 1 as row_pre,
         Row_Number() over(partition by ip, os, device, is_test order by click_time) - 1 as row_post
-    from sample
+    from click_data
     ;
 
 create temporary table tmp2 as
