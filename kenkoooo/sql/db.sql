@@ -61,9 +61,15 @@ CREATE TABLE test_supplement(
 -- Time: 253610.982 ms
 
 -- テーブルからコピー
-INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT click_id,ip,app,device,os,channel,click_time FROM test_data;
+INSERT INTO click_data (ip,app,device,os,channel,click_time,attributed_time,is_attributed) SELECT ip,app,device,os,channel,click_time,attributed_time,is_attributed FROM train_data;
+-- INSERT 0 184903890
+-- Time: 856930.007 ms
 
--- CONFITIONING
+INSERT INTO click_data (click_id,ip,app,device,os,channel,click_time) SELECT click_id,ip,app,device,os,channel,click_time FROM test_data;
+-- INSERT 0 18790469
+-- Time: 86929.900 ms
+
+-- CONDITIONING
 -- ip ごとのクリック数（何回目）を集計して保存する
 CREATE TABLE click_count_by_ip AS SELECT id, rank() over (partition by ip order by click_time, id) from click_data;
 
