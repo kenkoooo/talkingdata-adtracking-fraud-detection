@@ -9,3 +9,28 @@ EXPLAIN ANALYZE select max(os) from click_data;
 -- (4 rows)
 
 -- Time: 153953.446 ms
+
+-- 最大値シリーズ
+select max(ip) from click_data;
+--   max   
+-- --------
+--  364778
+-- (1 row)
+
+-- Time: 146559.381 ms
+
+select max(device) from click_data;
+--  max  
+-- ------
+--  4227
+-- (1 row)
+
+-- Time: 146531.978 ms
+
+select max(os) from click_data;
+--  max 
+-- -----
+--  956
+-- (1 row)
+
+-- Time: 146593.733 ms
