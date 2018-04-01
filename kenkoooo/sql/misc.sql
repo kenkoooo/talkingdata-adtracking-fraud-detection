@@ -34,6 +34,7 @@ select max(os) from click_data;
 -- (1 row)
 
 -- Time: 146593.733 ms
+
 select max(app) from click_data;
 --  max 
 -- -----
@@ -41,3 +42,11 @@ select max(app) from click_data;
 -- (1 row)
 
 -- Time: 159865.931 ms
+
+select max(channel) from click_data;
+--  max 
+-- -----
+--  500
+-- (1 row)
+
+-- Time: 159949.316 ms
