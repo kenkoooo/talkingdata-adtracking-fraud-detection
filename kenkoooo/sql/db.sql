@@ -78,6 +78,10 @@ CREATE TABLE ip_device_os AS SELECT id, ip*10000*1000+device*1000+os AS ip_devic
 ALTER TABLE ip_device_os ADD PRIMARY KEY (id);
 -- ALTER TABLE
 -- Time: 321862.938 ms
+-- INDEX も貼っておく
+CREATE INDEX ON ip_device_os (ip_device_os);
+-- CREATE INDEX
+-- Time: 246296.134 ms
 
 -- ip_device_os のクリックが何回目かカウントする
 CREATE TABLE click_count_by_ip_device_os AS SELECT i.id, rank() over(partition by ip_device_os ORDER BY click_time, i.id) FROM click_data AS c JOIN ip_device_os AS i ON i.id=c.id;
