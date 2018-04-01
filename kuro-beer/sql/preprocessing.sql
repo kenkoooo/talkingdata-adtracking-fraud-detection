@@ -14,29 +14,96 @@
 -- * uq userについて，直前n分間ののClick回数
 -- * uq userについて，直後n分間のClick回数
 
-
--- とりあえず時間変数だけ用意
-with chtime as (
+-- 直前・直後のclickを取得
+create temporary table tmp1 as
     select
-        id,
-        click_time + interval '8 hour' as click_time_ch
+        *,
+        click_time + interval '8 hour' as click_time_ch,
+        ip*10^7 + os*10^4 + device as uq_user,
+        Row_Number() over(partition by ip, os, device, is_test order by click_time) as row_number,
+        Row_Number() over(partition by ip, os, device, is_test order by click_time) + 1 as row_pre,
+        Row_Number() over(partition by ip, os, device, is_test order by click_time) - 1 as row_post
     from sample
-)
-select
-    *, 
-    ip*10^7 + os*10^4 + device as uq_user,
-    date_trunc('day', click_time_ch) as click_date,
-    extract(hour from click_time_ch) as click_hour,
-    date_trunc('hour', click_time_ch) as click_time_hour,
-    date_trunc('min', click_time_ch) as click_time_1min,
-    date_trunc('hour',2*(click_time - date_trunc('hour', click_time) + interval '15 minutes'))/2 as click_time_30min,
-    date_trunc('hour',4*(click_time - date_trunc('hour', click_time) + interval '7 minutes 30 seconds'))/2 as click_time_15min,
-    date_trunc('hour',6*(click_time - date_trunc('hour', click_time) + interval '5 minutes'))/2 as click_time_10min,
-    date_trunc('hour',12*(click_time - date_trunc('hour', click_time) + interval '2 minutes 30 seconds'))/2 as click_time_5min
-from 
-    sample T1 left join chtime T2 on T1.id = T2.id
+    ;
+
+create temporary table tmp2 as
+    select
+        T1.id,
+        T1.click_id,
+        T1.ip,
+        T1.app,
+        T1.device,
+        T1.os,
+        T1.channel,
+        T1.is_attributed,
+        T1.is_test,
+        T1.click_time_ch,
+        T1.uq_user,
+        T1.row_number,
+        extract(second from T1.click_time_ch - T2.click_time_ch) as interval_pre,
+        T2.app as app_pre,
+        T2.channel as chan_pre
+    from
+        tmp1 T1 left join tmp1 T2 
+            on T1.uq_user = T2.uq_user 
+                and T1.is_test = T2.is_test 
+                and T1.row_number = T2.row_pre
+    ;
+
+create temporary table tmp3 as
+    select
+        T1.id,
+        T1.click_id,
+        T1.ip,
+        T1.app,
+        T1.device,
+        T1.os,
+        T1.channel,
+        T1.is_attributed,
+        T1.is_test,
+        T1.click_time_ch,
+        T1.uq_user,
+        T1.row_number,
+        T1.app_pre,
+        T1.chan_pre,
+        T1.interval_pre,
+        extract(second from T2.click_time_ch - T1.click_time_ch) as interval_post,
+        T2.app as app_post,
+        T2.channel as chan_post
+    from
+        tmp2 T1 left join tmp1 T2 
+            on T1.uq_user = T2.uq_user 
+                and T1.is_test = T2.is_test 
+                and T1.row_number = T2.row_post
+    ;
+
+create temporary table tmp4 as
+    select
+        *,
+        date_trunc('day', click_time_ch) as click_date,
+        extract(hour from click_time_ch) as click_hour,
+        date_trunc('hour', click_time_ch) as click_time_hour,
+        date_trunc('min', click_time_ch) as click_time_1min,
+        date_trunc('hour', click_time_ch) + date_trunc('hour', 2*(click_time_ch - date_trunc('hour', click_time_ch) + interval '15 minutes'))/2 as click_time_30min,
+        date_trunc('hour', click_time_ch) + date_trunc('hour', 4*(click_time_ch - date_trunc('hour', click_time_ch) + interval '7 minutes 30 seconds'))/4 as click_time_15min,
+        date_trunc('hour', click_time_ch) + date_trunc('hour', 6*(click_time_ch - date_trunc('hour', click_time_ch) + interval '5 minutes'))/6 as click_time_10min,
+        date_trunc('hour', click_time_ch) + date_trunc('hour', 12*(click_time_ch - date_trunc('hour', click_time_ch) + interval '2 minutes 30 seconds'))/12 as click_time_5min
+    from 
+        tmp3
 ;
 
+create table click_data_mod as
+    select
+        *,
+        count(*) over(partition by uq_user, click_time_hour) as cnt_1hour,
+        count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
+        count(*) over(partition by uq_user, click_time_15min) as cnt_15min,
+        count(*) over(partition by uq_user, click_time_10min) as cnt_10min,
+        count(*) over(partition by uq_user, click_time_5min) as cnt_5min,
+        count(*) over(partition by uq_user, click_time_1min) as cnt_1min
+    from 
+        tmp4
+;
 
 
 

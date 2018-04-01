@@ -31,8 +31,8 @@
     - [x] datetime(10min単位でrounding)
     - [x] datetime(5min単位でrounding)
     - [x] datetime(1min単位でrounding)
-    - [ ] uq userについて，直前のClickのapp, channel, 時間差
-    - [ ] uq userについて，直後のClickのapp, channel, 時間差
+    - [x] uq userについて，直前のClickのapp, channel, 時間差
+    - [x] uq userについて，直後のClickのapp, channel, 時間差
     - [ ] uq userについて，直前n分間ののClick回数
     - [ ] uq userについて，直後n分間のClick回数  
 
