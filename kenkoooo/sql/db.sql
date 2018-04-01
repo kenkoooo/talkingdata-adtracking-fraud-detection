@@ -89,3 +89,8 @@ CREATE TABLE click_count_by_ip_device_os AS SELECT i.id, rank() over(partition b
 -- Time: 1203880.021 ms
 -- id に PK 貼る
 ALTER TABLE click_count_by_ip_device_os ADD PRIMARY KEY (id);
+
+-- (app, channel) の相関を見る
+CREATE TABLE count_by_app_channel AS select app, channel, count((app, channel)) from click_data group by (app, channel);
+-- SELECT 1457
+-- Time: 159926.292 ms
