@@ -48,6 +48,7 @@ create temporary table tmp2 as
             on T1.uq_user = T2.uq_user 
                 and T1.is_test = T2.is_test 
                 and T1.row_number = T2.row_pre
+    where T1.click_time_ch >= timestamp '2017-11-07 00:00:00'
     ;
 
 create temporary table tmp3 as
@@ -92,9 +93,12 @@ create temporary table tmp4 as
         tmp3
 ;
 
-create table click_data_mod as
+drop table tmp1, tmp2, tmp3;
+
+/* create table click_data_mod as
     select
         *,
+        count(*) over(partition by uq_user, click_doy) as cnt_doy,
         count(*) over(partition by uq_user, click_time_hour) as cnt_1hour,
         count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
         count(*) over(partition by uq_user, click_time_15min) as cnt_15min,
@@ -104,10 +108,77 @@ create table click_data_mod as
     from 
         tmp4
 ;
+ */
+ 
+create table click_data_train_0403 as
+    select
+        id,
+        click_id,
+        ip,
+        app,
+        device,
+        os,
+        channel,
+        is_attributed,
+        is_test,
+        click_time_ch,
+        uq_user,
+        app_pre,
+        app_post,
+        (case when app = app_pre  then 1 else 0 end) as same_app_pre,
+        (case when app = app_post then 1 else 0 end) as same_app_post,
+        chan_pre,
+        chan_post,
+        (case when channel = chan_pre then 1 else 0 end) as same_ch_pre,
+        (case when channel = chan_post then 1 else 0 end) as same_ch_post,
+        interval_pre,
+        interval_post,
+        click_hour,
+        count(*) over(partition by uq_user, click_date) as cnt_day,
+        count(*) over(partition by uq_user, click_time_hour) as cnt_1hour,
+        count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
+        count(*) over(partition by uq_user, click_time_15min) as cnt_15min,
+        count(*) over(partition by uq_user, click_time_10min) as cnt_10min,
+        count(*) over(partition by uq_user, click_time_5min) as cnt_5min,
+        count(*) over(partition by uq_user, click_time_1min) as cnt_1min
+    from tmp4
+    where is_test = 0
+;
 
-
-
-
+create table click_data_test_0403 as
+    select
+        id,
+        click_id,
+        ip,
+        app,
+        device,
+        os,
+        channel,
+        is_attributed,
+        is_test,
+        click_time_ch,
+        uq_user,
+        app_pre,
+        app_post,
+        (case when app = app_pre  then 1 else 0 end) as same_app_pre,
+        (case when app = app_post then 1 else 0 end) as same_app_post,
+        chan_pre,
+        chan_post,
+        (case when channel = chan_pre then 1 else 0 end) as same_ch_pre,
+        (case when channel = chan_post then 1 else 0 end) as same_ch_post,
+        interval_pre,
+        interval_post,
+        click_hour,
+        count(*) over(partition by uq_user, click_date) as cnt_day,
+        count(*) over(partition by uq_user, click_time_hour) as cnt_1hour,
+        count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
+        count(*) over(partition by uq_user, click_time_15min) as cnt_15min,
+        count(*) over(partition by uq_user, click_time_10min) as cnt_10min,
+        count(*) over(partition by uq_user, click_time_5min) as cnt_5min,
+        count(*) over(partition by uq_user, click_time_1min) as cnt_1min
+    from tmp4
+    where is_test = 1
+;
 
 
 
