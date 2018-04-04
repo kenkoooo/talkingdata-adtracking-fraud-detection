@@ -94,3 +94,8 @@ ALTER TABLE click_count_by_ip_device_os ADD PRIMARY KEY (id);
 CREATE TABLE count_by_app_channel AS select app, channel, count((app, channel)) from click_data group by (app, channel);
 -- SELECT 1457
 -- Time: 159926.292 ms
+
+-- train の (app, channel) でクリック数とダウンロード数を見る
+CREATE TABLE count_attributed AS SELECT SUM(is_attributed) AS count_attributed, COUNT(id) AS count_click, app, channel FROM click_data WHERE is_attributed IS NOT NULL GROUP BY (app, channel);
+-- SELECT 1420
+-- Time: 160088.186 ms
