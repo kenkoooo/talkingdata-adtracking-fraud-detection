@@ -23,7 +23,7 @@ create temporary table tmp1 as
         Row_Number() over(partition by ip, os, device, is_test order by click_time) as row_number,
         Row_Number() over(partition by ip, os, device, is_test order by click_time) + 1 as row_pre,
         Row_Number() over(partition by ip, os, device, is_test order by click_time) - 1 as row_post
-    from click_data
+    from sample
     ;
 
 create temporary table tmp2 as
@@ -40,7 +40,7 @@ create temporary table tmp2 as
         T1.click_time_ch,
         T1.uq_user,
         T1.row_number,
-        extract(second from T1.click_time_ch - T2.click_time_ch) as interval_pre,
+        T1.click_time_ch - T2.click_time_ch as interval_pre,
         T2.app as app_pre,
         T2.channel as chan_pre
     from
@@ -68,7 +68,7 @@ create temporary table tmp3 as
         T1.app_pre,
         T1.chan_pre,
         T1.interval_pre,
-        extract(second from T2.click_time_ch - T1.click_time_ch) as interval_post,
+        T2.click_time_ch - T1.click_time_ch as interval_post,
         T2.app as app_post,
         T2.channel as chan_post
     from
@@ -145,7 +145,9 @@ create table click_data_train_0403 as
     where is_test = 0
 ;
 
-create table click_data_test_0403 as
+drop table tmp4;
+
+create table tmp5 as
     select
         id,
         click_id,
