@@ -23,7 +23,7 @@ create temporary table tmp1 as
         Row_Number() over(partition by ip, os, device, is_test order by click_time) as row_number,
         Row_Number() over(partition by ip, os, device, is_test order by click_time) + 1 as row_pre,
         Row_Number() over(partition by ip, os, device, is_test order by click_time) - 1 as row_post
-    from sample
+    from click_data
     ;
 
 create temporary table tmp2 as
@@ -40,7 +40,7 @@ create temporary table tmp2 as
         T1.click_time_ch,
         T1.uq_user,
         T1.row_number,
-        T1.click_time_ch - T2.click_time_ch as interval_pre,
+        extract(epoch from (T1.click_time_ch - T2.click_time_ch)) as interval_pre,
         T2.app as app_pre,
         T2.channel as chan_pre
     from
@@ -68,7 +68,7 @@ create temporary table tmp3 as
         T1.app_pre,
         T1.chan_pre,
         T1.interval_pre,
-        T2.click_time_ch - T1.click_time_ch as interval_post,
+        extract(epoch from (T2.click_time_ch - T1.click_time_ch)) as interval_post,
         T2.app as app_post,
         T2.channel as chan_post
     from
@@ -84,33 +84,18 @@ create temporary table tmp4 as
         date_trunc('day', click_time_ch) as click_date,
         extract(hour from click_time_ch) as click_hour,
         date_trunc('hour', click_time_ch) as click_time_hour,
-        date_trunc('min', click_time_ch) as click_time_1min,
-        date_trunc('hour', click_time_ch) + date_trunc('hour', 2*(click_time_ch - date_trunc('hour', click_time_ch) + interval '15 minutes'))/2 as click_time_30min,
-        date_trunc('hour', click_time_ch) + date_trunc('hour', 4*(click_time_ch - date_trunc('hour', click_time_ch) + interval '7 minutes 30 seconds'))/4 as click_time_15min,
+        date_trunc('min', click_time_ch) as click_time_1min
+/*        date_trunc('hour', click_time_ch) + date_trunc('hour', 2*(click_time_ch - date_trunc('hour', click_time_ch) + interval '15 minutes'))/2 as click_time_30min,
+         date_trunc('hour', click_time_ch) + date_trunc('hour', 4*(click_time_ch - date_trunc('hour', click_time_ch) + interval '7 minutes 30 seconds'))/4 as click_time_15min,
         date_trunc('hour', click_time_ch) + date_trunc('hour', 6*(click_time_ch - date_trunc('hour', click_time_ch) + interval '5 minutes'))/6 as click_time_10min,
-        date_trunc('hour', click_time_ch) + date_trunc('hour', 12*(click_time_ch - date_trunc('hour', click_time_ch) + interval '2 minutes 30 seconds'))/12 as click_time_5min
+        date_trunc('hour', click_time_ch) + date_trunc('hour', 12*(click_time_ch - date_trunc('hour', click_time_ch) + interval '2 minutes 30 seconds'))/12 as click_time_5min */
     from 
         tmp3
 ;
 
 drop table tmp1, tmp2, tmp3;
 
-/* create table click_data_mod as
-    select
-        *,
-        count(*) over(partition by uq_user, click_doy) as cnt_doy,
-        count(*) over(partition by uq_user, click_time_hour) as cnt_1hour,
-        count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
-        count(*) over(partition by uq_user, click_time_15min) as cnt_15min,
-        count(*) over(partition by uq_user, click_time_10min) as cnt_10min,
-        count(*) over(partition by uq_user, click_time_5min) as cnt_5min,
-        count(*) over(partition by uq_user, click_time_1min) as cnt_1min
-    from 
-        tmp4
-;
- */
- 
-create table click_data_train_0403 as
+create table train_mod as
     select
         id,
         click_id,
@@ -125,29 +110,31 @@ create table click_data_train_0403 as
         uq_user,
         app_pre,
         app_post,
-        (case when app = app_pre  then 1 else 0 end) as same_app_pre,
-        (case when app = app_post then 1 else 0 end) as same_app_post,
+        (case when app_pre is null then null
+              when app = app_pre  then 1 else 0 end) as same_app_pre,
+        (case when app_post is null then null
+              when app = app_post then 1 else 0 end) as same_app_post,
         chan_pre,
         chan_post,
-        (case when channel = chan_pre then 1 else 0 end) as same_ch_pre,
-        (case when channel = chan_post then 1 else 0 end) as same_ch_post,
+        (case when chan_pre is null then null
+              when channel = chan_pre then 1 else 0 end) as same_ch_pre,
+        (case when chan_post is null then null
+              when channel = chan_post then 1 else 0 end) as same_ch_post,
         interval_pre,
         interval_post,
         click_hour,
         count(*) over(partition by uq_user, click_date) as cnt_day,
         count(*) over(partition by uq_user, click_time_hour) as cnt_1hour,
-        count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
+/*         count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
         count(*) over(partition by uq_user, click_time_15min) as cnt_15min,
         count(*) over(partition by uq_user, click_time_10min) as cnt_10min,
-        count(*) over(partition by uq_user, click_time_5min) as cnt_5min,
+        count(*) over(partition by uq_user, click_time_5min) as cnt_5min, */
         count(*) over(partition by uq_user, click_time_1min) as cnt_1min
     from tmp4
     where is_test = 0
 ;
 
-drop table tmp4;
-
-create table tmp5 as
+create table test_mod as
     select
         id,
         click_id,
@@ -162,21 +149,25 @@ create table tmp5 as
         uq_user,
         app_pre,
         app_post,
-        (case when app = app_pre  then 1 else 0 end) as same_app_pre,
-        (case when app = app_post then 1 else 0 end) as same_app_post,
+        (case when app_pre is null then null
+              when app = app_pre  then 1 else 0 end) as same_app_pre,
+        (case when app_post is null then null
+              when app = app_post then 1 else 0 end) as same_app_post,
         chan_pre,
         chan_post,
-        (case when channel = chan_pre then 1 else 0 end) as same_ch_pre,
-        (case when channel = chan_post then 1 else 0 end) as same_ch_post,
+        (case when chan_pre is null then null
+              when channel = chan_pre then 1 else 0 end) as same_ch_pre,
+        (case when chan_post is null then null
+              when channel = chan_post then 1 else 0 end) as same_ch_post,
         interval_pre,
         interval_post,
         click_hour,
         count(*) over(partition by uq_user, click_date) as cnt_day,
         count(*) over(partition by uq_user, click_time_hour) as cnt_1hour,
-        count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
+/*         count(*) over(partition by uq_user, click_time_30min) as cnt_30min,
         count(*) over(partition by uq_user, click_time_15min) as cnt_15min,
         count(*) over(partition by uq_user, click_time_10min) as cnt_10min,
-        count(*) over(partition by uq_user, click_time_5min) as cnt_5min,
+        count(*) over(partition by uq_user, click_time_5min) as cnt_5min, */
         count(*) over(partition by uq_user, click_time_1min) as cnt_1min
     from tmp4
     where is_test = 1
