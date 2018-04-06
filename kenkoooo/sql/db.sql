@@ -100,7 +100,10 @@ CREATE TABLE count_attributed AS SELECT SUM(is_attributed) AS count_attributed, 
 -- SELECT 1420
 -- Time: 160088.186 ms
 
-CREATE TABLE time_difference1 AS SELECT d.id AS id, d2.id AS prev_id, d.click_time-d2.click_time AS time_difference1 FROM (
+ip_device_os ごとに 1 つずらしたテーブルを作る
+CREATE TABLE time_difference1 AS 
+SELECT d.id AS id, d2.id AS prev_id, d.click_time-d2.click_time AS time_difference1 
+FROM (
   SELECT c.id, c.click_time, cc.rank, i.ip_device_os FROM click_data AS c
   JOIN ip_device_os AS i ON c.id=i.id
   JOIN click_count_by_ip_device_os AS cc ON cc.id=i.id
@@ -110,3 +113,6 @@ LEFT OUTER JOIN (
   JOIN ip_device_os AS i ON c.id=i.id
   JOIN click_count_by_ip_device_os AS cc ON cc.id=i.id
 ) AS d2 ON d.rank=d2.rank+1 AND d.ip_device_os=d2.ip_device_os;
+
+-- SELECT 203694359
+-- Time: 3350234.482 ms
