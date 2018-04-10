@@ -116,3 +116,13 @@ LEFT OUTER JOIN (
 
 -- SELECT 203694359
 -- Time: 3350234.482 ms
+
+CREATE TABLE ip_device_os_dow AS SELECT id, ip_device_os*10+dow AS ip_device_os_dow FROM (
+    SELECT
+        i.id,
+        i.ip_device_os,
+        EXTRACT(DOW FROM d.click_time) AS dow
+    FROM ip_device_os AS i
+    JOIN click_data AS d ON d.id=i.id
+) AS d
+LIMIT 10;
