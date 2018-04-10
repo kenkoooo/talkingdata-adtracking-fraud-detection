@@ -131,3 +131,13 @@ CREATE TABLE ip_device_os_dow AS SELECT id, ip_device_os*10+dow AS ip_device_os_
 CREATE INDEX ON ip_device_os_dow (ip_device_os_dow);
 -- CREATE INDEX
 -- Time: 334411.268 ms
+
+CREATE TABLE attributed_count_by_ip_device_os_dow AS
+SELECT
+    COUNT(is_attributed),
+    SUM(is_attributed),
+    ip_device_os_dow
+FROM click_data AS d
+JOIN ip_device_os_dow AS i ON i.id=d.id
+WHERE is_attributed IS NOT NULL
+GROUP BY ip_device_os_dow;
