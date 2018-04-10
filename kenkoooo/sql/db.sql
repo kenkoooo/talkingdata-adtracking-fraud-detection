@@ -100,7 +100,7 @@ CREATE TABLE count_attributed AS SELECT SUM(is_attributed) AS count_attributed, 
 -- SELECT 1420
 -- Time: 160088.186 ms
 
-ip_device_os ごとに 1 つずらしたテーブルを作る
+-- ip_device_os ごとに 1 つずらしたテーブルを作る
 CREATE TABLE time_difference1 AS 
 SELECT d.id AS id, d2.id AS prev_id, d.click_time-d2.click_time AS time_difference1 
 FROM (
@@ -117,6 +117,7 @@ LEFT OUTER JOIN (
 -- SELECT 203694359
 -- Time: 3350234.482 ms
 
+-- ip_device_os_dow を id としたテーブルを作る
 CREATE TABLE ip_device_os_dow AS SELECT id, ip_device_os*10+dow AS ip_device_os_dow FROM (
     SELECT
         i.id,
@@ -124,5 +125,6 @@ CREATE TABLE ip_device_os_dow AS SELECT id, ip_device_os*10+dow AS ip_device_os_
         EXTRACT(DOW FROM d.click_time) AS dow
     FROM ip_device_os AS i
     JOIN click_data AS d ON d.id=i.id
-) AS d
-LIMIT 10;
+) AS d;
+-- SELECT 203694359
+-- Time: 648756.319 ms
