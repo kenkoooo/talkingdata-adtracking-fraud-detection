@@ -141,3 +141,5 @@ FROM click_data AS d
 JOIN ip_device_os_dow AS i ON i.id=d.id
 WHERE is_attributed IS NOT NULL
 GROUP BY ip_device_os_dow;
+-- SELECT 5804423
+-- Time: 638730.846 ms
