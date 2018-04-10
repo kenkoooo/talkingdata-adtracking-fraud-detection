@@ -161,5 +161,10 @@ CREATE TABLE ip_device_os_dow_hour AS SELECT id, CAST(ip_device_os_dow*100+hour 
 -- SELECT 203694359
 -- Time: 403426.199 ms
 
-ALTER TABLE ip_device_os_dow_hour ADD PRIMARY KEY (ip_device_os_dow_hour);
+ALTER TABLE ip_device_os_dow_hour ADD PRIMARY KEY (id);
+-- ALTER TABLE
+-- Time: 326115.251 ms
+
 CREATE INDEX ON ip_device_os_dow_hour (ip_device_os_dow_hour);
+-- CREATE INDEX
+-- Time: 262558.332 ms
