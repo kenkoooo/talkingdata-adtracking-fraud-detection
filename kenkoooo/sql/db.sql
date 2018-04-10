@@ -131,6 +131,9 @@ CREATE TABLE ip_device_os_dow AS SELECT id, ip_device_os*10+dow AS ip_device_os_
 CREATE INDEX ON ip_device_os_dow (ip_device_os_dow);
 -- CREATE INDEX
 -- Time: 334411.268 ms
+ALTER TABLE ip_device_os_dow ADD PRIMARY KEY (id);
+-- ALTER TABLE
+-- Time: 227977.463 ms
 
 CREATE TABLE attributed_count_by_ip_device_os_dow AS
 SELECT
@@ -143,3 +146,6 @@ WHERE is_attributed IS NOT NULL
 GROUP BY ip_device_os_dow;
 -- SELECT 5804423
 -- Time: 638730.846 ms
+ALTER TABLE attributed_count_by_ip_device_os_dow ADD PRIMARY KEY (ip_device_os_dow);
+-- ALTER TABLE
+-- Time: 6048.707 ms
