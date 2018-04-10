@@ -128,3 +128,6 @@ CREATE TABLE ip_device_os_dow AS SELECT id, ip_device_os*10+dow AS ip_device_os_
 ) AS d;
 -- SELECT 203694359
 -- Time: 648756.319 ms
+CREATE INDEX ON ip_device_os_dow (ip_device_os_dow);
+-- CREATE INDEX
+-- Time: 334411.268 ms
