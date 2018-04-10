@@ -174,3 +174,5 @@ SELECT i.id, rank() over(partition by ip_device_os_dow_hour ORDER BY click_time,
 JOIN ip_device_os_dow_hour AS i ON i.id=c.id;
 
 ALTER TABLE click_count_by_ip_device_os_dow_hour ADD PRIMARY KEY (id);
+-- ALTER TABLE
+-- Time: 398059.391 ms
