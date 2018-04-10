@@ -168,3 +168,7 @@ ALTER TABLE ip_device_os_dow_hour ADD PRIMARY KEY (id);
 CREATE INDEX ON ip_device_os_dow_hour (ip_device_os_dow_hour);
 -- CREATE INDEX
 -- Time: 262558.332 ms
+
+CREATE TABLE click_count_by_ip_device_os_dow_hour AS
+SELECT i.id, rank() over(partition by ip_device_os_dow_hour ORDER BY click_time, i.id) FROM click_data AS c 
+JOIN ip_device_os_dow_hour AS i ON i.id=c.id;
