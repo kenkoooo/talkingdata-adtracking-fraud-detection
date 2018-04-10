@@ -149,3 +149,17 @@ GROUP BY ip_device_os_dow;
 ALTER TABLE attributed_count_by_ip_device_os_dow ADD PRIMARY KEY (ip_device_os_dow);
 -- ALTER TABLE
 -- Time: 6048.707 ms
+
+CREATE TABLE ip_device_os_dow_hour AS SELECT id, CAST(ip_device_os_dow*100+hour AS BIGINT) AS ip_device_os_dow_hour FROM (         
+    SELECT
+        i.id,                              
+        CAST(i.ip_device_os_dow AS BIGINT),
+        EXTRACT(HOUR FROM d.click_time) AS hour
+    FROM ip_device_os_dow AS i
+    JOIN click_data AS d ON d.id=i.id
+) AS d;
+-- SELECT 203694359
+-- Time: 403426.199 ms
+
+ALTER TABLE ip_device_os_dow_hour ADD PRIMARY KEY (ip_device_os_dow_hour);
+CREATE INDEX ON ip_device_os_dow_hour (ip_device_os_dow_hour);
