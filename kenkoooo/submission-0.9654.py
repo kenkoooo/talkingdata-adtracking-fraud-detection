@@ -12,8 +12,14 @@ from logzero import logger
 
 is_valid = False
 
+host="talkingdata2.cxu3byr36ara.ap-northeast-1.rds.amazonaws.com"
 with open("config.json") as f:
-    connection = psycopg2.connect(json.load(f)["psql"])
+    password=json.load(f)["pass"]
+connection = psycopg2.connect(
+    host=host,
+    dbname="talkingdata",
+    user="talkingdata",
+    password=password)
 
 logger.info("loading train data")
 
