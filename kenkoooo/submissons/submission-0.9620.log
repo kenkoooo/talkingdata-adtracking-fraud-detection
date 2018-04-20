@@ -1,0 +1,47 @@
+nohup: ignoring input
+/home/ubuntu/.pyenv/versions/talkingdata/lib/python3.6/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+[I 180420 08:07:45 submission:126] Using 4 threads.
+[I 180420 08:07:45 submission:128] Starting validation...
+[I 180420 08:07:45 submission:14] Loading HDF...
+[I 180420 08:12:50 submission:17] Splitting data...
+[I 180420 08:13:42 submission:31] Generating matrix...
+[I 180420 08:14:50 submission:38] Validating...
+[08:14:50] Tree method is selected to be 'hist', which uses a single updater grow_fast_histmaker.
+[0]	train-auc:0.9628	valid-auc:0.957822
+Multiple eval metrics have been passed: 'valid-auc' will be used for early stopping.
+
+Will train until valid-auc hasn't improved in 25 rounds.
+[5]	train-auc:0.973968	valid-auc:0.966239
+[10]	train-auc:0.979503	valid-auc:0.969907
+[15]	train-auc:0.980409	valid-auc:0.965792
+[20]	train-auc:0.979966	valid-auc:0.961555
+[25]	train-auc:0.978609	valid-auc:0.959352
+[30]	train-auc:0.976225	valid-auc:0.956477
+[35]	train-auc:0.97595	valid-auc:0.957869
+Stopping. Best iteration:
+[11]	train-auc:0.980037	valid-auc:0.970026
+
+[I 180420 08:58:19 submission:132] Starting prediction...
+[I 180420 08:58:19 submission:66] Loading HDF...
+[I 180420 08:58:27 submission:69] Splitting data...
+[I 180420 08:59:27 submission:87] Generating matrix...
+[I 180420 09:00:42 submission:93] Training...
+[09:00:42] Tree method is selected to be 'hist', which uses a single updater grow_fast_histmaker.
+[0]	train-auc:0.899027
+[1]	train-auc:0.950791
+[2]	train-auc:0.967066
+[3]	train-auc:0.97024
+[4]	train-auc:0.970631
+[5]	train-auc:0.973571
+[6]	train-auc:0.973923
+[7]	train-auc:0.975376
+[8]	train-auc:0.976858
+[9]	train-auc:0.977941
+[10]	train-auc:0.978439
+[11]	train-auc:0.978576
+[12]	train-auc:0.979012
+[13]	train-auc:0.979147
+[14]	train-auc:0.979411
+[I 180420 09:24:27 submission:114] Predicting...
+[I 180420 09:25:41 submission:135] Finished
