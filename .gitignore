@@ -1,7 +1,6 @@
-data/
 **/.ipynb_checkpoints/
 **/.python-version
 **.csv
 kenkoooo/config.json
 kuro-beer/config.json
-
+kenkoooo/data/
