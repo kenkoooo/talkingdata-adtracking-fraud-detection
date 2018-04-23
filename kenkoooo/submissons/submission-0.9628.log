@@ -1,0 +1,106 @@
+nohup: ignoring input
+/home/ubuntu/.pyenv/versions/talkingdata/lib/python3.6/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+  "This module will be removed in 0.20.", DeprecationWarning)
+[I 180423 07:07:15 submission:156] Using 8 threads.
+[I 180423 07:07:15 submission:162] Starting prediction...
+[I 180423 07:07:15 submission:93] Loading HDF...
+[I 180423 07:10:59 submission:95] app                                              uint16
+    channel                                          uint16
+    click_id                                        float64
+    device                                           uint16
+    ip                                               uint32
+    is_attributed                                   float64
+    os                                               uint16
+    click_count_by_ip_os_device_dow                  uint32
+    click_count_by_ip_os_device_dow_hour             uint16
+    click_count_by_ip                                uint32
+    dow                                               uint8
+    hour                                              uint8
+    minute                                            uint8
+    second                                            uint8
+    rank_by_ip                                       uint32
+    rank_by_ip_os_device                             uint32
+    rank_by_ip_os_device_dow                         uint32
+    click_time_interval_by_ip                       float64
+    click_time_interval_by_ip_os_device             float64
+    click_time_interval_by_ip_os_device_dow         float64
+    click_time_interval_by_ip_os_device_dow_hour    float64
+    ip_device_os_cumcount                            uint32
+    ip_cumcount                                      uint32
+    ip_channel_countuniq                              uint8
+    ip_dow_hour_countuniq                             uint8
+    ip_app_countuniq                                  uint8
+    ip_app_os_countuniq                               uint8
+    ip_device_countuniq                              uint16
+    app_channel_countuniq                            uint32
+    ip_device_os_app_countuniq                       uint32
+    ip_dow_hour_count                                uint32
+    ip_app_count                                     uint32
+    ip_app_os_count                                  uint16
+    ip_dow_channel_var                              float32
+    ip_app_os_var                                   float32
+    ip_app_channel_var                              float32
+    ip_app_channel_mean                             float32
+    dtype: object
+[I 180423 07:10:59 submission:97] Splitting data...
+[I 180423 07:12:20 submission:109] Generating matrix...
+[I 180423 07:14:42 submission:114] Training...
+[07:14:42] Tree method is selected to be 'hist', which uses a single updater grow_fast_histmaker.
+[0]	train-auc:0.956515
+[1]	train-auc:0.967938
+[2]	train-auc:0.969673
+[3]	train-auc:0.970102
+[4]	train-auc:0.971707
+[5]	train-auc:0.973594
+[6]	train-auc:0.974976
+[7]	train-auc:0.97594
+[8]	train-auc:0.976842
+[9]	train-auc:0.978003
+[10]	train-auc:0.978633
+[11]	train-auc:0.979509
+[12]	train-auc:0.979871
+[13]	train-auc:0.980023
+[14]	train-auc:0.979951
+[I 180423 07:35:34 submission:143] Predicting...
+[I 180423 07:35:34 submission:69] Loading HDF...
+[I 180423 07:35:47 submission:71] app                                              uint16
+    channel                                          uint16
+    click_id                                        float64
+    device                                           uint16
+    ip                                               uint32
+    is_attributed                                   float64
+    os                                               uint16
+    click_count_by_ip_os_device_dow                  uint32
+    click_count_by_ip_os_device_dow_hour             uint16
+    click_count_by_ip                                uint32
+    dow                                               uint8
+    hour                                              uint8
+    minute                                            uint8
+    second                                            uint8
+    rank_by_ip                                       uint32
+    rank_by_ip_os_device                             uint32
+    rank_by_ip_os_device_dow                         uint32
+    click_time_interval_by_ip                       float64
+    click_time_interval_by_ip_os_device             float64
+    click_time_interval_by_ip_os_device_dow         float64
+    click_time_interval_by_ip_os_device_dow_hour    float64
+    ip_device_os_cumcount                            uint32
+    ip_cumcount                                      uint32
+    ip_channel_countuniq                              uint8
+    ip_dow_hour_countuniq                             uint8
+    ip_app_countuniq                                  uint8
+    ip_app_os_countuniq                               uint8
+    ip_device_countuniq                              uint16
+    app_channel_countuniq                            uint32
+    ip_device_os_app_countuniq                       uint32
+    ip_dow_hour_count                                uint32
+    ip_app_count                                     uint32
+    ip_app_os_count                                  uint16
+    ip_dow_channel_var                              float32
+    ip_app_os_var                                   float32
+    ip_app_channel_var                              float32
+    ip_app_channel_mean                             float32
+    dtype: object
+[I 180423 07:35:47 submission:73] Splitting data...
+[I 180423 07:35:58 submission:85] Generating matrix...
+[I 180423 07:37:23 submission:165] Finished
